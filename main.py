@@ -325,10 +325,12 @@ def end_condition_check_no_moves_left():
                         end_condition_fulfill_white = False
     clear_map(moves)
     if end_condition_fulfill_black and TURN == WHITE_TURN:
-        WINNER = 1
+        WINNER = -1
     if end_condition_fulfill_white and TURN == BLACK_TURN:
-        WINNER = 2
+        WINNER = -1
 
+def to_tuple(square):
+    return (ord(square[0]) - 65+1, int(square[1]) - 1 + 1)
 
 if __name__ == '__main__':
     canvas.bind("<Key>", key)
@@ -362,16 +364,16 @@ if __name__ == '__main__':
 
             for row in csv_reader:
 
-                if row[2] == "B":
-                    if row[3] == "D":
-                        board[int(row[0])][int(row[1])] = WhiteRock(True)
-                    elif row[3] == "F":
-                        board[int(row[0])][int(row[1])] = WhiteRock(False)
-                elif row[2] == "C":
-                    if row[3] == "D":
-                        board[int(row[0])][int(row[1])] = BlackRock(True)
-                    elif row[3] == "F":
-                        board[int(row[0])][int(row[1])] = BlackRock(False)
+                print(to_tuple(row[0])[0])
+                if row[1] == "bb":
+                        board[int(to_tuple(row[0])[0])][int(to_tuple(row[0])[1])] = BlackRock(True)
+                if row[1] == "b":
+                    board[int(to_tuple(row[0])[0])][int(to_tuple(row[0])[1])] = BlackRock(False)
+                if row[1] == "ww":
+                    board[int(to_tuple(row[0])[0])][int(to_tuple(row[0])[1])] = WhiteRock(True)
+                if row[1] == "w":
+                    board[int(to_tuple(row[0])[0])][int(to_tuple(row[0])[1])] = WhiteRock(False)
+
     canvas.pack()
     draw(moves)
     canvas.pack()
